@@ -1,0 +1,57 @@
+#!/usr/bin/python
+#coding: utf-8
+import random
+import pexpect
+import urllib,urllib2
+import struct,fcntl,termios,signal,sys
+AUTH_URL='http://127.0.0.1:17304/code/name'
+
+def config():
+    hosts = { 'host1':'name',
+              'host2':'name'
+               }
+    return hosts
+####选择登录的服务器
+def ChooseServer():
+    hosts = config()
+    num = len(hosts.keys())
+    host = random.choice(hosts.keys())
+    return  hosts[host] + '@' + host
+##获取验证码
+def GetCode():
+    req = urllib2.Request(AUTH_URL)
+    response = urllib2.urlopen(req)
+    return response.read()
+##自动登录
+def Login():
+    global ssh_client
+    ssh_client = pexpect.spawn("ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 16020  %s" %ChooseServer())
+    signal.signal(signal.SIGWINCH, sigwinch_passthrough)
+    try:    
+        ssh_client.expect('google auth:',timeout=5)
+        ssh_client.sendline(GetCode())
+        winsize = getwinsize()
+        ssh_client.setwinsize(winsize[0],winsize[1])
+        ssh_client.interact()
+    except:
+        winsize = getwinsize()
+        ssh_client.setwinsize(winsize[0],winsize[1])
+        ssh_client.interact()
+##调节登录后窗口大小
+def sigwinch_passthrough(sig,data):
+    winsize = getwinsize()
+    #global ssh_client
+    ssh_client.setwinsize(winsize[0],winsize[1])
+def getwinsize(): #这个模块主要用于记录登录前的session的窗口大小，不然会发生登录后窗口大小变小的问题
+    if 'TIOCGWINSZ' in dir(termios):
+        TIOCGWINSZ = termios.TIOCGWINSZ
+    else:
+        TIOCGWINSZ = 1074295912L 
+    s = struct.pack('HHHH', 0, 0, 0, 0)
+    x = fcntl.ioctl(sys.stdout.fileno(), TIOCGWINSZ, s)
+    return struct.unpack('HHHH', x)[0:2]
+def main():
+    print  "\033[1;32m login by:\033[0m " + ChooseServer()
+    Login()
+if __name__ == '__main__':
+    main()
