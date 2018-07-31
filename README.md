@@ -29,9 +29,9 @@ GoldenPassport 是 Google Authenticator 的 Mac 版，具体功能可以通过�
 
 相关命令
 便捷使用
-可将 ssh.py 放到 PATH(/usr/local/bin) 目录下，
-赋予可执行权限：chmod +x /usr/local/bin/ssh.py 
-这样在任何地方就能使用 ssh.py 命令快速登录服务器
+可将 sshpy 放到 PATH(/usr/local/bin) 目录下，
+赋予可执行权限：chmod +x /usr/local/bin/sshpy 
+这样在任何地方就能使用 sshpy 命令快速登录服务器
 
 
 Enjoy it
