@@ -1,17 +1,15 @@
 # xuedihualu
+感谢stanzhai作者的提供源码
 
 sshgo
-
 借助 GoldenPassport 实现 Mac 下 Google Authenticator 验证码自动输入
 
-
 Usege
-
 
 安装 GoldenPassport
 
 GoldenPassport 是 Google Authenticator 的 Mac 版，具体功能可以通过：https://github.com/stanzhai/GoldenPassport 了解。它提供了 http 接口去获取 auth code，这为我们实现
-更多充满想象力的功能提供了基础。安装包下载地址
+更多充满想象力的功能提供了基础。安装包下载地址https://github.com/stanzhai/GoldenPassport/releases
 
 添加验证码
 
@@ -24,7 +22,7 @@ GoldenPassport 是 Google Authenticator 的 Mac 版，具体功能可以通过�
 
 配置服务器列表
 
-编辑 ssh.py 文件，配置 CONFIGS 和 AUTH_URL
+编辑 sshpy 文件，配置 CONFIGS 和 AUTH_URL
 
 
 相关命令
@@ -34,4 +32,3 @@ GoldenPassport 是 Google Authenticator 的 Mac 版，具体功能可以通过�
 这样在任何地方就能使用 sshpy 命令快速登录服务器
 
 
-Enjoy it
